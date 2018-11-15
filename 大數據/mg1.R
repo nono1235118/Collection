@@ -1,0 +1,415 @@
+library(readr)
+library(dplyr)
+mg10704<-read_csv("https://quality.data.gov.tw/dq_download_csv.php?nid=77144&md5_url=66227d5379a21f0c1c4b85eb7afde168",skip = 1)
+mg10703<-read_csv("https://quality.data.gov.tw/dq_download_csv.php?nid=77144&md5_url=9da1aabb4fb9230f85594c2d8f85a4fc",skip = 1)
+mg10702<-read_csv("https://quality.data.gov.tw/dq_download_csv.php?nid=77144&md5_url=b4bd43ff91f8c52b8676154cbdcb39ec",skip = 1)
+mg10701<-read_csv("https://quality.data.gov.tw/dq_download_csv.php?nid=77144&md5_url=96803cf112b77b7ebc8e1793eacfcb4f",skip = 1)
+mg10612<-read_csv("https://quality.data.gov.tw/dq_download_csv.php?nid=32975&md5_url=2230342450de14b0c83463ca2f75fc91",skip = 1)
+mg10611<-read_csv("https://quality.data.gov.tw/dq_download_csv.php?nid=32975&md5_url=46dfa7f8aaf3780ad4430feb449d6934",skip = 1)
+mg10610<-read_csv("https://quality.data.gov.tw/dq_download_csv.php?nid=32975&md5_url=f7ac27c03e569c9cf07d03fd92508465",skip = 1)
+mg10609<-read_csv("https://quality.data.gov.tw/dq_download_csv.php?nid=32975&md5_url=2aa267aa393a06aca71ef30fd1f35946",skip = 1)
+mg10608<-read_csv("https://quality.data.gov.tw/dq_download_csv.php?nid=32975&md5_url=f7c1f24dbae328fe2dc24c578246d0dd",skip = 1)
+mg10607<-read_csv("https://quality.data.gov.tw/dq_download_csv.php?nid=32975&md5_url=876312f2a8821cf9ad78f1644a5dd613",skip = 1)
+mg10606<-read_csv("https://quality.data.gov.tw/dq_download_csv.php?nid=32975&md5_url=362e6a57edaec3b8411eeafde573f6ae",skip = 1)
+mg10605<-read_csv("https://quality.data.gov.tw/dq_download_csv.php?nid=32975&md5_url=b58c6f9079fd21b459df64a42fc8ad60",skip = 1)
+mg10604<-read_csv("https://quality.data.gov.tw/dq_download_csv.php?nid=32975&md5_url=94daa4bb688da151802bde0cda7ff197",skip = 1)
+mg10603<-read_csv("https://quality.data.gov.tw/dq_download_csv.php?nid=32975&md5_url=85e5e66f0607e78f7518539a51404f50",skip = 1)
+mg10602<-read_csv("https://quality.data.gov.tw/dq_download_csv.php?nid=32975&md5_url=f49cff79cbb07dcde421d246159cf2d3",skip = 1)
+mg10601<-read_csv("https://quality.data.gov.tw/dq_download_csv.php?nid=32975&md5_url=e3fa33bdf3eb10db09b4d0fd5b14b457",skip = 1)
+mg10512<-read_csv("https://quality.data.gov.tw/dq_download_csv.php?nid=32975&md5_url=a7cd7ca10cb6c5ceaadb9c251710dd22",skip = 1)
+mg10511<-read_csv("https://quality.data.gov.tw/dq_download_csv.php?nid=32975&md5_url=7b556bfd206a73129c2df5d403f3379b",skip = 1)
+mg10510<-read_csv("https://quality.data.gov.tw/dq_download_csv.php?nid=32975&md5_url=e7d30f615c7078326670550b0f55cc36",skip = 1)
+mg10509<-read_csv("https://quality.data.gov.tw/dq_download_csv.php?nid=32975&md5_url=50bf8833d7795db5f00e833211eba096",skip = 1)
+mg10508<-read_csv("https://quality.data.gov.tw/dq_download_csv.php?nid=32975&md5_url=f6dcc16080a340d03caed2d38014fd35",skip = 1)
+mg10507<-read_csv("https://quality.data.gov.tw/dq_download_csv.php?nid=32975&md5_url=fb04f5390a6ef2d6083fae45d8b5d838",skip = 1)
+mg10506<-read_csv("https://quality.data.gov.tw/dq_download_csv.php?nid=32975&md5_url=405a166be5d28c908f582a3dfeacca4f",skip = 1)
+mg10505<-read_csv("https://quality.data.gov.tw/dq_download_csv.php?nid=32975&md5_url=76fa97b08cba46f4552ee330ebba7746",skip = 1)
+mg10504<-read_csv("https://quality.data.gov.tw/dq_download_csv.php?nid=32975&md5_url=b9090be76c4d5b45e01a6e58ca17588c",skip = 1)
+mg10503<-read_csv("https://quality.data.gov.tw/dq_download_csv.php?nid=32975&md5_url=405a166be5d28c908f582a3dfeacca4f",skip = 1)
+mg10502<-read_csv("https://quality.data.gov.tw/dq_download_csv.php?nid=32975&md5_url=9558180b4113ae8aac6d80408a9f4da1",skip = 1)
+mg10501<-read_csv("https://quality.data.gov.tw/dq_download_csv.php?nid=32975&md5_url=aafbbf209f9a3ec96f26cf944fb02853",skip = 1)
+
+mg10704$區域別<-substr(mg10704$區域別,start = 1,stop = 3)
+mgs10704<-mg10704%>%
+  mutate(遷入人數=rowSums(mg10704[,5:6]),
+          遷出人數=rowSums(mg10704[,35:36]))%>%
+  group_by(區域別)%>%
+  select("區域別","遷入人數","遷出人數")%>%
+  summarise(遷入10704=sum(遷入人數),遷出10704=sum(遷出人數))%>%
+  arrange(desc(遷入10704))
+
+mg10703$區域別<-substr(mg10703$區域別,start = 1,stop = 3)
+mgs10703<-mg10703%>%
+  mutate(遷入人數=rowSums(mg10703[,5:6]),
+             遷出人數=rowSums(mg10703[,35:36]))%>%
+  group_by(區域別)%>%
+  select("區域別","遷入人數","遷出人數")%>%
+  summarise(遷入10703=sum(遷入人數),遷出10703=sum(遷出人數))%>%
+  arrange(desc(遷入10703))
+
+mg10702$區域別<-substr(mg10702$區域別,start = 1,stop = 3)
+mgs10702<-mg10702%>%
+  mutate(遷入人數=rowSums(mg10702[,5:6]),
+             遷出人數=rowSums(mg10702[,35:36]))%>%
+  group_by(區域別)%>%
+  select("區域別","遷入人數","遷出人數")%>%
+  summarise(遷入10702=sum(遷入人數),遷出10702=sum(遷出人數))%>%
+  arrange(desc(遷入10702))
+
+mg10701$區域別<-substr(mg10701$區域別,start = 1,stop = 3)
+mgs10701<-mg10701%>%
+  mutate(遷入人數=rowSums(mg10701[,5:6]),
+             遷出人數=rowSums(mg10701[,35:36]))%>%
+  group_by(區域別)%>%
+  select("區域別","遷入人數","遷出人數")%>%
+  summarise(遷入10701=sum(遷入人數),遷出10701=sum(遷出人數))%>%
+  arrange(desc(遷入10701))
+
+mg10612$區域別<-substr(mg10612$區域別,start = 1,stop = 3)
+mgs10612<-mg10612%>%
+  mutate(遷入人數=rowSums(mg10612[,4:5]),
+             遷出人數=rowSums(mg10612[,34:35]))%>%
+  group_by(區域別)%>%
+  select("區域別","遷入人數","遷出人數")%>%
+  summarise(遷入10612=sum(遷入人數),遷出10612=sum(遷出人數))%>%
+  arrange(desc(遷入10612))
+
+mg10611$區域別<-substr(mg10611$區域別,start = 1,stop = 3)
+mgs10611<-mg10611%>%
+  mutate(遷入人數=rowSums(mg10611[,4:5]),
+             遷出人數=rowSums(mg10611[,34:35]))%>%
+  group_by(區域別)%>%
+  select("區域別","遷入人數","遷出人數")%>%
+  summarise(遷入10611=sum(遷入人數),遷出10611=sum(遷出人數))%>%
+  arrange(desc(遷入10611))
+
+mg10610$區域別<-substr(mg10610$區域別,start = 1,stop = 3)
+mgs10610<-mg10610%>%
+  mutate(遷入人數=rowSums(mg10610[,4:5]),
+             遷出人數=rowSums(mg10610[,34:35]))%>%
+  group_by(區域別)%>%
+  select("區域別","遷入人數","遷出人數")%>%
+  summarise(遷入10610=sum(遷入人數),遷出10610=sum(遷出人數))%>%
+  arrange(desc(遷入10610))
+
+mg10609$區域別<-substr(mg10609$區域別,start = 1,stop = 3)
+mgs10609<-mg10609%>%
+  mutate(遷入人數=rowSums(mg10609[,4:5]),
+             遷出人數=rowSums(mg10609[,34:35]))%>%
+  group_by(區域別)%>%
+  select("區域別","遷入人數","遷出人數")%>%
+  summarise(遷入10609=sum(遷入人數),遷出10609=sum(遷出人數))%>%
+  arrange(desc(遷入10609))
+
+mg10608$區域別<-substr(mg10608$區域別,start = 1,stop = 3)
+mgs10608<-mg10608%>%
+  mutate(遷入人數=rowSums(mg10608[,4:5]),
+             遷出人數=rowSums(mg10608[,34:35]))%>%
+  group_by(區域別)%>%
+  select("區域別","遷入人數","遷出人數")%>%
+  summarise(遷入10608=sum(遷入人數),遷出10608=sum(遷出人數))%>%
+  arrange(desc(遷入10608))
+
+mg10607$區域別<-substr(mg10607$區域別,start = 1,stop = 3)
+mgs10607<-mg10607%>%
+  mutate(遷入人數=rowSums(mg10607[,4:5]),
+             遷出人數=rowSums(mg10607[,34:35]))%>%
+  group_by(區域別)%>%
+  select("區域別","遷入人數","遷出人數")%>%
+  summarise(遷入10607=sum(遷入人數),遷出10607=sum(遷出人數))%>%
+  arrange(desc(遷入10607))
+
+mg10606$區域別<-substr(mg10606$區域別,start = 1,stop = 3)
+mgs10606<-mg10606%>%
+  mutate(遷入人數=rowSums(mg10606[,4:5]),
+             遷出人數=rowSums(mg10606[,34:35]))%>%
+  group_by(區域別)%>%
+  select("區域別","遷入人數","遷出人數")%>%
+  summarise(遷入10606=sum(遷入人數),遷出10606=sum(遷出人數))%>%
+  arrange(desc(遷入10606))
+
+mg10605$區域別<-substr(mg10605$區域別,start = 1,stop = 3)
+mgs10605<-mg10605%>%
+  mutate(遷入人數=rowSums(mg10605[,4:5]),
+             遷出人數=rowSums(mg10605[,34:35]))%>%
+  group_by(區域別)%>%
+  select("區域別","遷入人數","遷出人數")%>%
+  summarise(遷入10605=sum(遷入人數),遷出10605=sum(遷出人數))%>%
+  arrange(desc(遷入10605))
+
+mg10604$區域別<-substr(mg10604$區域別,start = 1,stop = 3)
+mgs10604<-mg10604%>%
+  mutate(遷入人數=rowSums(mg10604[,4:5]),
+             遷出人數=rowSums(mg10604[,34:35]))%>%
+  group_by(區域別)%>%
+  select("區域別","遷入人數","遷出人數")%>%
+  summarise(遷入10604=sum(遷入人數),遷出10604=sum(遷出人數))%>%
+  arrange(desc(遷入10604))
+
+mg10603$區域別<-substr(mg10603$區域別,start = 1,stop = 3)
+mgs10603<-mg10603%>%
+  mutate(遷入人數=rowSums(mg10603[,4:5]),
+             遷出人數=rowSums(mg10603[,34:35]))%>%
+  group_by(區域別)%>%
+  select("區域別","遷入人數","遷出人數")%>%
+  summarise(遷入10603=sum(遷入人數),遷出10603=sum(遷出人數))%>%
+  arrange(desc(遷入10603))
+
+mg10602$區域別<-substr(mg10602$區域別,start = 1,stop = 3)
+mgs10602<-mg10602%>%
+  mutate(遷入人數=rowSums(mg10602[,4:5]),
+             遷出人數=rowSums(mg10602[,34:35]))%>%
+  group_by(區域別)%>%
+  select("區域別","遷入人數","遷出人數")%>%
+  summarise(遷入10602=sum(遷入人數),遷出10602=sum(遷出人數))%>%
+  arrange(desc(遷入10602))
+
+mg10601$區域別<-substr(mg10601$區域別,start = 1,stop = 3)
+mgs10601<-mg10601%>%
+  mutate(遷入人數=rowSums(mg10601[,4:5]),
+             遷出人數=rowSums(mg10601[,34:35]))%>%
+  group_by(區域別)%>%
+  select("區域別","遷入人數","遷出人數")%>%
+  summarise(遷入10601=sum(遷入人數),遷出10601=sum(遷出人數))%>%
+  arrange(desc(遷入10601))
+
+mg10512$區域別<-substr(mg10512$區域別,start = 1,stop = 3)
+mgs10512<-mg10512%>%
+  mutate(遷入人數=rowSums(mg10512[,4:5]),
+             遷出人數=rowSums(mg10512[,34:35]))%>%
+  group_by(區域別)%>%
+  select("區域別","遷入人數","遷出人數")%>%
+  summarise(遷入10512=sum(遷入人數),遷出10512=sum(遷出人數))%>%
+  arrange(desc(遷入10512))
+
+mg10511$區域別<-substr(mg10511$區域別,start = 1,stop = 3)
+mgs10511<-mg10511%>%
+  mutate(遷入人數=rowSums(mg10511[,4:5]),
+             遷出人數=rowSums(mg10511[,34:35]))%>%
+  group_by(區域別)%>%
+  select("區域別","遷入人數","遷出人數")%>%
+  summarise(遷入10511=sum(遷入人數),遷出10511=sum(遷出人數))%>%
+  arrange(desc(遷入10511))
+
+mg10510$區域別<-substr(mg10510$區域別,start = 1,stop = 3)
+mgs10510<-mg10510%>%
+  mutate(遷入人數=rowSums(mg10510[,4:5]),
+             遷出人數=rowSums(mg10510[,34:35]))%>%
+  group_by(區域別)%>%
+  select("區域別","遷入人數","遷出人數")%>%
+  summarise(遷入10510=sum(遷入人數),遷出10510=sum(遷出人數))%>%
+  arrange(desc(遷入10510))
+
+mg10509$區域別<-substr(mg10509$區域別,start = 1,stop = 3)
+mgs10509<-mg10509%>%
+  mutate(遷入人數=rowSums(mg10509[,4:5]),
+             遷出人數=rowSums(mg10509[,34:35]))%>%
+  group_by(區域別)%>%
+  select("區域別","遷入人數","遷出人數")%>%
+  summarise(遷入10509=sum(遷入人數),遷出10509=sum(遷出人數))%>%
+  arrange(desc(遷入10509))
+
+mg10508$區域別<-substr(mg10508$區域別,start = 1,stop = 3)
+mgs10508<-mg10508%>%
+  mutate(遷入人數=rowSums(mg10508[,4:5]),
+             遷出人數=rowSums(mg10508[,34:35]))%>%
+  group_by(區域別)%>%
+  select("區域別","遷入人數","遷出人數")%>%
+  summarise(遷入10508=sum(遷入人數),遷出10508=sum(遷出人數))%>%
+  arrange(desc(遷入10508))
+
+mg10507$區域別<-substr(mg10507$區域別,start = 1,stop = 3)
+mgs10507<-mg10507%>%
+  mutate(遷入人數=rowSums(mg10507[,4:5]),
+             遷出人數=rowSums(mg10507[,34:35]))%>%
+  group_by(區域別)%>%
+  select("區域別","遷入人數","遷出人數")%>%
+  summarise(遷入10507=sum(遷入人數),遷出10507=sum(遷出人數))%>%
+  arrange(desc(遷入10507))
+
+mg10506$區域別<-substr(mg10506$區域別,start = 1,stop = 3)
+mgs10506<-mg10506%>%
+  mutate(遷入人數=rowSums(mg10506[,4:5]),
+             遷出人數=rowSums(mg10506[,34:35]))%>%
+  group_by(區域別)%>%
+  select("區域別","遷入人數","遷出人數")%>%
+  summarise(遷入10506=sum(遷入人數),遷出10506=sum(遷出人數))%>%
+  arrange(desc(遷入10506))
+
+mg10505$區域別<-substr(mg10505$區域別,start = 1,stop = 3)
+mgs10505<-mg10505%>%
+  mutate(遷入人數=rowSums(mg10505[,4:5]),
+             遷出人數=rowSums(mg10505[,34:35]))%>%
+  group_by(區域別)%>%
+  select("區域別","遷入人數","遷出人數")%>%
+  summarise(遷入10505=sum(遷入人數),遷出10505=sum(遷出人數))%>%
+  arrange(desc(遷入10505))
+
+mg10504$區域別<-substr(mg10504$區域別,start = 1,stop = 3)
+mgs10504<-mg10504%>%
+  mutate(遷入人數=rowSums(mg10504[,4:5]),
+             遷出人數=rowSums(mg10504[,34:35]))%>%
+  group_by(區域別)%>%
+  select("區域別","遷入人數","遷出人數")%>%
+  summarise(遷入10504=sum(遷入人數),遷出10504=sum(遷出人數))%>%
+  arrange(desc(遷入10504))
+
+mg10503$區域別<-substr(mg10503$區域別,start = 1,stop = 3)
+mgs10503<-mg10503%>%
+  mutate(遷入人數=rowSums(mg10503[,4:5]),
+             遷出人數=rowSums(mg10503[,34:35]))%>%
+  group_by(區域別)%>%
+  select("區域別","遷入人數","遷出人數")%>%
+  summarise(遷入10503=sum(遷入人數),遷出10503=sum(遷出人數))%>%
+  arrange(desc(遷入10503))
+
+mg10502$區域別<-substr(mg10502$區域別,start = 1,stop = 3)
+mgs10502<-mg10502%>%
+  mutate(遷入人數=rowSums(mg10502[,4:5]),
+             遷出人數=rowSums(mg10502[,34:35]))%>%
+  group_by(區域別)%>%
+  select("區域別","遷入人數","遷出人數")%>%
+  summarise(遷入10502=sum(遷入人數),遷出10502=sum(遷出人數))%>%
+  arrange(desc(遷入10502))
+
+mg10501$區域別<-substr(mg10501$區域別,start = 1,stop = 3)
+mgs10501<-mg10501%>%
+  mutate(遷入人數=rowSums(mg10501[,4:5]),
+             遷出人數=rowSums(mg10501[,34:35]))%>%
+  group_by(區域別)%>%
+  select("區域別","遷入人數","遷出人數")%>%
+  summarise(遷入10501=sum(遷入人數),遷出10501=sum(遷出人數))%>%
+  arrange(desc(遷入10501))
+
+#資料合併
+mgdata10501<-merge(mgs10501,mgs10502,by="區域別",all=T)
+mgdata10501<-merge(mgdata10501,mgs10503,by="區域別",all=T)
+mgdata10501<-merge(mgdata10501,mgs10504,by="區域別",all=T)
+mgdata10501<-merge(mgdata10501,mgs10505,by="區域別",all=T)
+mgdata10501<-merge(mgdata10501,mgs10506,by="區域別",all=T)
+mgdata10501<-mgdata10501%>%
+  mutate(遷入人數=rowSums(mgdata10501[,seq(from=2,to=13,by=2)]),
+             遷出人數=rowSums(mgdata10501[,seq(from=3,to=13,by=2)]))%>%
+  select("區域別","遷入人數","遷出人數")%>%
+  arrange(desc(遷入人數))
+
+mgdata10507<-merge(mgs10507,mgs10508,by="區域別",all=T)
+mgdata10507<-merge(mgdata10507,mgs10509,by="區域別",all=T)
+mgdata10507<-merge(mgdata10507,mgs10510,by="區域別",all=T)
+mgdata10507<-merge(mgdata10507,mgs10511,by="區域別",all=T)
+mgdata10507<-merge(mgdata10507,mgs10512,by="區域別",all=T)
+mgdata10507<-mgdata10507%>%
+  mutate(遷入人數=rowSums(mgdata10507[,seq(from=2,to=13,by=2)]),
+             遷出人數=rowSums(mgdata10507[,seq(from=3,to=13,by=2)]))%>%
+  select("區域別","遷入人數","遷出人數")%>%
+  arrange(desc(遷入人數))
+
+mgdata10601<-merge(mgs10601,mgs10601,by="區域別",all=T)
+mgdata10601<-merge(mgdata10601,mgs10603,by="區域別",all=T)
+mgdata10601<-merge(mgdata10601,mgs10604,by="區域別",all=T)
+mgdata10601<-merge(mgdata10601,mgs10605,by="區域別",all=T)
+mgdata10601<-merge(mgdata10601,mgs10606,by="區域別",all=T)
+mgdata10601<-mgdata10601%>%
+  mutate(遷入人數=rowSums(mgdata10601[,seq(from=2,to=13,by=2)]),
+             遷出人數=rowSums(mgdata10601[,seq(from=3,to=13,by=2)]))%>%
+  select("區域別","遷入人數","遷出人數")%>%
+  arrange(desc(遷入人數))
+
+mgdata10607<-merge(mgs10607,mgs10608,by="區域別",all=T)
+mgdata10607<-merge(mgdata10607,mgs10609,by="區域別",all=T)
+mgdata10607<-merge(mgdata10607,mgs10610,by="區域別",all=T)
+mgdata10607<-merge(mgdata10607,mgs10611,by="區域別",all=T)
+mgdata10607<-merge(mgdata10607,mgs10612,by="區域別",all=T)
+mgdata10607<-mgdata10607%>%
+  mutate(遷入人數=rowSums(mgdata10607[,seq(from=2,to=13,by=2)]),
+             遷出人數=rowSums(mgdata10607[,seq(from=3,to=13,by=2)]))%>%
+  select("區域別","遷入人數","遷出人數")%>%
+  arrange(desc(遷入人數))
+
+mgdata10701<-merge(mgs10701,mgs10702,by="區域別",all=T)
+mgdata10701<-merge(mgdata10701,mgs10703,by="區域別",all=T)
+mgdata10701<-merge(mgdata10701,mgs10704,by="區域別",all=T)
+mgdata10701<-mgdata10701%>%
+  mutate(遷入人數=rowSums(mgdata10701[,seq(from=2,to=9,by=2)]),
+             遷出人數=rowSums(mgdata10701[,seq(from=3,to=9,by=2)]))%>%
+  select("區域別","遷入人數","遷出人數")%>%
+  arrange(desc(遷入人數))
+
+
+#library(ggmap)
+#library(ggplot2) 
+#library(rgdal)#for fortify()
+#library(rgeos) #for fortify()
+#library(maptools) #for readShapeSpatial()
+
+#tw_new <- readShapeSpatial("~/台灣地區範圍/TOWN_MOI_1070516.shp") 
+#tw_new.df <- fortify(tw_new, region = "COUNTYID") 
+
+
+#county_town <- read_csv("https://quality.data.gov.tw/dq_download_csv.php?nid=7441&md5_url=b65d54c62fb808b2769ac13eb42f6f12")
+#names(county_town) <- c("TOWNID", "TOWNCODE", "COUNTYNAME", "TOWNNAME", "TOWNENG", "COUNTYID", "COUNTYCODE")
+names(mgdata10501)[1]<-"COUNTYNAME"
+names(mgdata10507)[1]<-"COUNTYNAME"
+names(mgdata10601)[1]<-"COUNTYNAME"
+names(mgdata10607)[1]<-"COUNTYNAME"
+names(mgdata10701)[1]<-"COUNTYNAME"
+#mgfinal <- merge(mgdata1, county_town,all.y = T,by = "COUNTYNAME")
+#mgplot <- merge(tw_new.df, mgfinal, by.x = "id", by.y = "COUNTYID")%>%arrange(order)
+
+#library(RColorBrewer)
+#mgmap1 <- ggplot()+
+  #geom_polygon(data = mgplot,
+  #             aes(x = long,y = lat,group = group,fill = "遷入人數"),
+  #             color = "black",size = 0.25)+
+  #coord_map()+
+  #scale_fill_brewer(name="遷入人數", palette=4, na.value="white")+
+  #theme_void()+
+  #labs(title="105年1月至7月遷入人數")
+#mgmap1
+
+
+
+#新增比率欄位
+mgdata10501$淨移出比10501<-
+  (mgdata10501$遷出人數-mgdata10501$遷入人數)/sum(mgdata10501$遷入人數)
+mgdata10507$淨移出比10507<-
+  (mgdata10507$遷出人數-mgdata10507$遷入人數)/sum(mgdata10507$遷入人數)
+mgdata10601$淨移出比10601<-
+  (mgdata10601$遷出人數-mgdata10601$遷入人數)/sum(mgdata10601$遷入人數)
+mgdata10607$淨移出比10607<-
+  (mgdata10607$遷出人數-mgdata10607$遷入人數)/sum(mgdata10607$遷入人數)
+mgdata10701$淨移出比10701<-
+  (mgdata10701$遷出人數-mgdata10701$遷入人數)/sum(mgdata10701$遷入人數)
+
+dataout<-data.frame(COUNTYNAME=mgdata10501$COUNTYNAME,
+                    淨移出比10501=mgdata10501$淨移出比10501,
+                    淨移出比10507=mgdata10507$淨移出比10507,
+                    淨移出比10601=mgdata10601$淨移出比10601,
+                    淨移出比10607=mgdata10607$淨移出比10607,
+                    淨移出比10701=mgdata10701$淨移出比10701,
+                    stringsAsFactors=F)
+
+
+
+library(reshape2)
+dataout<-melt(dataout,id.vars="COUNTYNAME")%>%
+  arrange(variable,COUNTYNAME)
+
+#總移出排名計算
+dataout%>%
+  group_by(COUNTYNAME)%>%
+  summarise(sum(value))%>%
+  arrange(desc(`sum(value)`))
+
+library(plotly)
+plot_ly(dataout, 
+        x = ~COUNTYNAME, 
+        y = ~value, 
+        type = "scatter",
+        mode = "lines",
+        color = ~variable)%>%
+  layout(xaxis = list(title = ""),
+         yaxis = list(title = "比率")
+         ,title="各縣市年度遷出比率變化圖")
+
+#write.csv(dataout, "dataout.csv", row.names = FALSE)
